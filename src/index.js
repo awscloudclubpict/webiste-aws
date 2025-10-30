@@ -25,8 +25,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-//const MONGO_URI ="mongodb+srv://redeem_user:Redeem123@cluster0.psm60jr.mongodb.net/redeemr?retryWrites=true&w=majority&appName=Cluster0";
-const MONGO_URI =process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI;
 let isConnected = false;
 
 const connectToDatabase = async () => {
@@ -36,8 +35,10 @@ const connectToDatabase = async () => {
 
   try {
     await mongoose.connect(MONGO_URI, {
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 5,
     });
     isConnected = true;
     console.log("Connected to MongoDB");
