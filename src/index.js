@@ -25,7 +25,8 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-const MONGO_URI ="mongodb+srv://redeem_user:Redeem123@cluster0.psm60jr.mongodb.net/redeemr?retryWrites=true&w=majority&appName=Cluster0";
+//const MONGO_URI ="mongodb+srv://redeem_user:Redeem123@cluster0.psm60jr.mongodb.net/redeemr?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URI =process.env.MONGO_URI;
 let isConnected = false;
 
 const connectToDatabase = async () => {
