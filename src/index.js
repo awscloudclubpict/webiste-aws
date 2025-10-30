@@ -19,7 +19,7 @@ const app = express();
 
 // Updated CORS to allow specific origins and enable credentials for cookie auth
 app.use(cors({
-  origin: ["http://localhost:3001","http://localhost:3000", "https://website-frontend-lkns.onrender.com","https://awscloudclubpict.vercel.app"],
+  origin: ["http://localhost:3001","http://localhost:3000", "https://webiste-aws.vercel.app","https://website-frontend-lkns.onrender.com","https://awscloudclubpict.vercel.app"],
   credentials: true
 }));
 app.use(cookieParser());
