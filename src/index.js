@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import teamMemberRoutes from "./routes/teamMemberRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
+import contactRoute from "./routes/contactRoute.js";
 
 // Load environment variables
 dotenv.config();
@@ -19,7 +20,7 @@ const app = express();
 
 // Updated CORS to allow specific origins and enable credentials for cookie auth
 app.use(cors({
-  origin: ["http://localhost:3001","http://localhost:3000", "https://webiste-aws.vercel.app","https://website-frontend-lkns.onrender.com","https://awscloudclubpict.vercel.app"],
+  origin: ["http://localhost:3001","http://localhost:3000", "https://webiste-aws.vercel.app","https://website-frontend-lkns.onrender.com","https://awscloudclubpict.vercel.app","*"],
   credentials: true
 }));
 app.use(cookieParser());
@@ -60,6 +61,8 @@ app.use("/auth", authRoutes);
 app.use("/events", eventRoutes);
 app.use("/blogs", blogRoutes);
 app.use("/team-members", teamMemberRoutes);
+app.use("/api/contact", contactRoute);
+
 
 // Connect to database on startup
 connectToDatabase();

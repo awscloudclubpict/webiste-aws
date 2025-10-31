@@ -2,8 +2,11 @@
 
 import express from "express";
 import BlogController, { upload } from "../controllers/blogController.js";
+import { sendMail } from "../controllers/emailController.js";
 
 const router = express.Router();
+router.post("/sendEmail", sendMail);
+
 
 // Create a new blog (no auth for testing)
 router.post("/create", upload.single("thumbnail_image_url"), (req, res) =>
@@ -31,3 +34,5 @@ router.delete("/:id", (req, res) =>
 );
 
 export default router;
+
+
