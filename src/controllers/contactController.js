@@ -10,8 +10,8 @@ export const contactUs = async (req, res) => {
   try {
     // EmailJS Node.js SDK
     const result = await emailjs.send(
-      "default_service", // Service ID
-      "template_contact", // Template ID
+      "service_085wm7y", // Service ID
+      "template_famfbdn", // Template ID
       {
         name: name, // Matches {{name}} in your template
         email: email, // Matches {{email}} in your template
