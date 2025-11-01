@@ -8,6 +8,8 @@ import teamMemberRoutes from "./routes/teamMemberRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import contactRoute from "./routes/contactRoute.js";
+import userEventRoutes from "./routes/userEventRoutes.js";
+import certificateRoutes from "./routes/certificateRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -62,6 +64,8 @@ app.use("/events", eventRoutes);
 app.use("/blogs", blogRoutes);
 app.use("/team-members", teamMemberRoutes);
 app.use("/api/contact", contactRoute);
+app.use("/user-events",userEventRoutes)
+app.use("/certificates", certificateRoutes);
 
 
 // Connect to database on startup
