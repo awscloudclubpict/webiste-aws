@@ -14,6 +14,7 @@ export const contactUs = async (req, res) => {
     const msg = {
       to: "canteenmanagement2025@gmail.com", // Your email to receive messages
       from: "noreply@yourdomain.com", // Must be verified in SendGrid
+      replyTo: email, // Reply to the user's email
       subject: `New Contact Message from ${name}`,
       html: `
         <h3>New Contact Form Submission</h3>
