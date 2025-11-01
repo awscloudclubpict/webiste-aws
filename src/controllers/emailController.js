@@ -66,7 +66,7 @@ const sendMail = async (req, res) => {
       secure: true,
       auth: {
         user: "canteenmanagement2025@gmail.com",
-        pass: "dtcn zowj vzlv uapn",
+        pass: "dtcnzowjvzlvuapn",
       },
     });
 
