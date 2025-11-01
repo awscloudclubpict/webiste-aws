@@ -61,12 +61,12 @@ const sendMail = async (req, res) => {
     const subject = `Blog Request from ${name}: ${title}`;
 
     let transporter = nodemailer.createTransport({
-      service: "smtp.gmail.com",
+      host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: {
         user: "canteenmanagement2025@gmail.com",
-        pass: "dtcnzowjvzlvuapn",
+        pass: "dtcn zowj vzlv uapn",
       },
     });
 
