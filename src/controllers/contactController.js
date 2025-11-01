@@ -17,10 +17,10 @@ export const contactUs = async (req, res) => {
         template_id: "template_contact", // Create a template in EmailJS dashboard
         user_id: "OxlMVJyiyvcJQAjev", // Your public key
         template_params: {
-          from_name: name,
-          from_email: email,
-          message: message,
-          to_email: "canteenmanagement2025@gmail.com", // Your email to receive messages
+          name: name, // Matches {{name}} in your template
+          email: email, // Matches {{email}} in your template
+          title: "New Contact Message", // For subject line
+          message: message, // The contact message content
         },
       }),
     });
