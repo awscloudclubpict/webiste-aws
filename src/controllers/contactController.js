@@ -1,4 +1,4 @@
-import emailjs from "@emailjs/nodejs";
+import sgMail from "@sendgrid/mail";
 
 export const contactUs = async (req, res) => {
   const { name, email, message } = req.body;
@@ -8,25 +8,28 @@ export const contactUs = async (req, res) => {
   }
 
   try {
-    // EmailJS Node.js SDK
-    const result = await emailjs.send(
-      "service_085wm7y", // Service ID
-      "template_famfbdn", // Template ID
-      {
-        name: name, // Matches {{name}} in your template
-        email: email, // Matches {{email}} in your template
-        title: "New Contact Message", // For subject line
-        message: message, // The contact message content
-      },
-      {
-        publicKey: "OxlMVJyiyvcJQAjev", // Your public key
-      }
-    );
+    // Set SendGrid API key
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    console.log("EmailJS result:", result);
+    const msg = {
+      to: "canteenmanagement2025@gmail.com", // Your email to receive messages
+      from: "noreply@yourdomain.com", // Must be verified in SendGrid
+      subject: `New Contact Message from ${name}`,
+      html: `
+        <h3>New Contact Form Submission</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
+    };
+
+    await sgMail.send(msg);
+
+    console.log("SendGrid email sent successfully");
     res.status(200).json({ message: "Message sent successfully!" });
   } catch (err) {
-    console.error("EmailJS error:", err);
+    console.error("SendGrid error:", err);
     res.status(500).json({ error: "Failed to send message" });
   }
 };
