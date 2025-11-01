@@ -11,15 +11,14 @@ export const contactUs = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "canteenmanagement2025@gmail.com",
-        pass: "dtcn zowj vzlv uapn",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     await transporter.sendMail({
-     from: `"AWS Cloud Club PICT" <canteenmanagement2025@gmail.com>`,
-
-      to: "canteenmanagement2025@gmail.com",
+     from: `"AWS Cloud Club PICT" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
       replyTo: email,
       subject: `New Contact Us Message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
