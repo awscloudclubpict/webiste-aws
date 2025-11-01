@@ -1,5 +1,3 @@
-import nodemailer from "nodemailer";
-
 export const contactUs = async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -8,31 +6,32 @@ export const contactUs = async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+    // EmailJS REST API call
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      // Add timeout and connection settings for serverless environments
-      socketTimeout: 60000, // 60 seconds
-      connectionTimeout: 60000, // 60 seconds
-      greetingTimeout: 30000, // 30 seconds
-      secure: true, // use TLS
+      body: JSON.stringify({
+        service_id: "default_service", // You may need to configure this in EmailJS dashboard
+        template_id: "template_contact", // Create a template in EmailJS dashboard
+        user_id: "OxlMVJyiyvcJQAjev", // Your public key
+        template_params: {
+          from_name: name,
+          from_email: email,
+          message: message,
+          to_email: "canteenmanagement2025@gmail.com", // Your email to receive messages
+        },
+      }),
     });
 
-    await transporter.sendMail({
-     from: `"AWS Cloud Club PICT" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      replyTo: email,
-      subject: `New Contact Us Message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-      html: `<p><strong>Name:</strong> ${name}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Message:</strong> ${message}</p>`,
-    });
-
-    res.status(200).json({ message: "Message sent successfully!" });
+    if (response.ok) {
+      res.status(200).json({ message: "Message sent successfully!" });
+    } else {
+      const errorText = await response.text();
+      console.error("EmailJS error:", errorText);
+      res.status(500).json({ error: "Failed to send message" });
+    }
   } catch (err) {
     console.error("Email error:", err);
     res.status(500).json({ error: "Failed to send message" });
