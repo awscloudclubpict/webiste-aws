@@ -61,7 +61,9 @@ const sendMail = async (req, res) => {
     const subject = `Blog Request from ${name}: ${title}`;
 
     let transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: "canteenmanagement2025@gmail.com",
         pass: "dtcn zowj vzlv uapn",
