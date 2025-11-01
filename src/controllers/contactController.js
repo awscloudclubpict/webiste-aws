@@ -1,3 +1,5 @@
+import emailjs from "@emailjs/nodejs";
+
 export const contactUs = async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -6,34 +8,25 @@ export const contactUs = async (req, res) => {
   }
 
   try {
-    // EmailJS REST API call
-    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    // EmailJS Node.js SDK
+    const result = await emailjs.send(
+      "default_service", // Service ID
+      "template_contact", // Template ID
+      {
+        name: name, // Matches {{name}} in your template
+        email: email, // Matches {{email}} in your template
+        title: "New Contact Message", // For subject line
+        message: message, // The contact message content
       },
-      body: JSON.stringify({
-        service_id: "default_service", // You may need to configure this in EmailJS dashboard
-        template_id: "template_contact", // Create a template in EmailJS dashboard
-        user_id: "OxlMVJyiyvcJQAjev", // Your public key
-        template_params: {
-          name: name, // Matches {{name}} in your template
-          email: email, // Matches {{email}} in your template
-          title: "New Contact Message", // For subject line
-          message: message, // The contact message content
-        },
-      }),
-    });
+      {
+        publicKey: "OxlMVJyiyvcJQAjev", // Your public key
+      }
+    );
 
-    if (response.ok) {
-      res.status(200).json({ message: "Message sent successfully!" });
-    } else {
-      const errorText = await response.text();
-      console.error("EmailJS error:", errorText);
-      res.status(500).json({ error: "Failed to send message" });
-    }
+    console.log("EmailJS result:", result);
+    res.status(200).json({ message: "Message sent successfully!" });
   } catch (err) {
-    console.error("Email error:", err);
+    console.error("EmailJS error:", err);
     res.status(500).json({ error: "Failed to send message" });
   }
 };
