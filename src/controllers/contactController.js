@@ -14,6 +14,11 @@ export const contactUs = async (req, res) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      // Add timeout and connection settings for serverless environments
+      socketTimeout: 60000, // 60 seconds
+      connectionTimeout: 60000, // 60 seconds
+      greetingTimeout: 30000, // 30 seconds
+      secure: true, // use TLS
     });
 
     await transporter.sendMail({
