@@ -998,6 +998,157 @@ or
 }
 ```
 
+## Event Registration, Attendance and Certificate Routes
+
+### 1. Event Registration
+**Endpoint:** `POST /user-events/register`
+
+**Request Body:**
+```json
+{
+  "userId": "string (MongoDB ObjectId, required)",
+  "eventId": "string (MongoDB ObjectId, required)"
+}
+```
+
+**Response (Success - 201):**
+```json
+{
+  "message": "User registered for event successfully",
+  "registration": {
+    "event": "69064b165422dd0447f34875",
+    "attendanceMarked": false,
+    "codeEntered": "",
+    "certificateGenerated": false,
+    "certificateUrl": "",
+    "_id": "66f12abc98e4b200128ff45a"
+  }
+}
+
+```
+
+**Response (Error - 400/404/409/500):**
+```json
+{
+  "error": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["userId"],
+      "message": "Required"
+    }
+  ]
+}
+
+```
+or
+```json
+{
+  "error": "Event not found"
+}
+```
+
+or
+```json
+{
+  "error": "User not found"
+}
+```
+
+or
+```json
+{
+  "error": "User already registered for this event"
+}
+
+```
+
+or
+```json
+{
+  "error": "Internal server error"
+}
+
+```
+
+### 2. Mark Attendance
+**Endpoint:** `POST /user-events/attendance`
+
+**Request Body:**
+```json
+{
+  "userId": "string (MongoDB ObjectId, required)",
+  "eventId": "string (MongoDB ObjectId, required)",
+  "eventCode": "string (required, must match event's secret code)"
+}
+
+```
+
+**Response (Success - 201):**
+```json
+{
+  "message": "Attendance marked successfully",
+  "data": {
+    "userId": "69064c7616e1d11a4c59d027",
+    "eventId": "69064b165422dd0447f34875",
+    "attendanceMarked": true,
+    "codeEntered": "aws_bootcamp_2025"
+  }
+}
+
+```
+
+**Response (Error - 400/404/409/500):**
+```json
+{
+  "error": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["eventCode"],
+      "message": "Required"
+    }
+  ]
+}
+
+```
+or
+```json
+{
+  "message": "You are not registered for this event"
+}
+```
+
+or
+```json
+{
+  "message": "Attendance already marked"
+}
+```
+
+or
+```json
+{
+  "message": "Invalid event code"
+}
+```
+
+or
+```json
+{
+  "message": "User not found"
+}
+```
+
+or
+```json
+{
+  "error": "Internal server error"
+}
+```
+
 ## Other Routes
 
 ### 1. Health Check
